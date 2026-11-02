@@ -1,0 +1,15 @@
+.DS_Store
+**/.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+kaggle.json
+bert_results/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
