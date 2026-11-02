@@ -2,15 +2,7 @@
 
 ### Computer vision and NLP practical assignments · Polytech Tours
 
-## Course context and attribution
-
-Python practical assignments completed during my Erasmus exchange at **Polytech Tours, Université de Tours**, for **IA et Applications (UE3.S9, semester S9)**. This repository covers **Image and Video Processing and Analysis** and **Automatic Language Processing**.
-
-[Official Polytech Tours website](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique)
-
-**My coursework submissions** are the OpenCV practical, TP2 preprocessing experiments, TP4 medical notes experiment and the accompanying reports. The `help_*.ipynb` files in [`nlp/TP1/`](nlp/TP1/) are guided course examples for preprocessing, LSA and Word2Vec. Their inclusion documents the material studied; it does not imply that I authored those teaching examples.
-
-The original notebooks, saved outputs and PDFs are preserved. Organization and documentation were added for easier review; the experiments have not been rerun as part of this cleanup.
+Completed during my Erasmus semester at [Polytech Tours, Université de Tours](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique), as practical coursework for **IA et Applications (UE3.S9)**.
 
 I worked on image filtering, segmentation and feature matching with OpenCV, then text preprocessing and medical notes classification with a TF-IDF/SVM baseline and BERT. The notebooks include code, saved outputs and written reports.
 
