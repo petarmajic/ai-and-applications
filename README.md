@@ -70,7 +70,9 @@ flowchart TD
 
 ## Course context and attribution
 
-The [official 2025–2026 course handbook](https://polytech.univ-tours.fr/medias/fichier/livret-specialite-di-2025-2026-vf_1762957156585-pdf?ID_FICHE=326727&INLINE=FALSE) lists **IA et Applications** in semester S9. This repository presents work from its computer vision and language-processing modules.
+These practical assignments were completed for **IA et Applications (UE3.S9, semester S9)** at **Polytech Tours, Université de Tours**. This repository presents work from its computer vision and language-processing modules.
+
+[Official Computer Science department page](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique) · [Official course documentation](https://polytech.univ-tours.fr/version-francaise/documentation)
 
 **My coursework submissions** are the OpenCV practical, TP2 preprocessing experiments, TP4 medical notes experiment and the accompanying reports. The `help_*.ipynb` files in [`nlp/TP1/`](nlp/TP1/) are guided course examples for preprocessing, LSA and Word2Vec. Their inclusion documents the material studied; it does not imply that I authored those teaching examples.
 
