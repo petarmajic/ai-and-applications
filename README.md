@@ -41,29 +41,7 @@ These are outputs saved in the coursework notebook. The module also covers noise
 
 The baseline performed better in this run. BERT used one epoch and truncated inputs to 128 tokens; both approaches received the same cleaned text, including stemming. These choices limit what the comparison says about the models more broadly. [Full protocol and interpretation →](docs/experiments.md)
 
-```mermaid
-flowchart TB
-    A["825 labeled medical notes"] --> B["Inspect classes and lengths · clean HTML, normalize and stem"]
-    B --> C["Stratified 80/20 split · seed 42"]
-    C --> D["660 training notes"]
-    C --> E["165 held-out notes"]
-    D --> F["TF-IDF + LinearSVC"]
-    D --> G["BERT · tokenize and fine-tune"]
-    F --> H["Evaluate both models"]
-    G --> H
-    E --> H
-    H --> I["Accuracy · per-class precision, recall and F1 · confusion matrix"]
-
-    classDef data fill:#e8f4ef,stroke:#3e8067,color:#163d30,stroke-width:1.5px,font-size:18px;
-    classDef process fill:#f3f6f9,stroke:#91a4b7,color:#233549,stroke-width:1px,font-size:18px;
-    classDef model fill:#e7eff8,stroke:#4779a8,color:#193c5c,stroke-width:1.5px,font-size:18px;
-    classDef result fill:#dceee8,stroke:#34745e,color:#163d30,stroke-width:1.5px,font-size:18px;
-    class A,D,E data;
-    class B,C process;
-    class F,G model;
-    class H,I result;
-    linkStyle default stroke:#8193a4,stroke-width:1.4px;
-```
+![Medical notes pipeline: preprocessing, stratified split, SVM and BERT training, and held-out evaluation](assets/nlp-pipeline.svg)
 
 ## Repository guide
 
