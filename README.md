@@ -42,18 +42,42 @@ These are outputs saved in the coursework notebook. The module also covers noise
 The baseline performed better in this run. BERT used one epoch and truncated inputs to 128 tokens; both approaches received the same cleaned text, including stemming. These choices limit what the comparison says about the models more broadly. [Full protocol and interpretation →](docs/experiments.md)
 
 ```mermaid
-flowchart TD
-    A["825 labeled medical notes"] --> B["Inspect classes and note lengths"]
-    B --> C["Clean HTML, normalize and stem"]
-    C --> D["Stratified split · seed 42"]
-    D --> E["660 training notes"]
-    D --> F["165 test notes"]
-    E --> G["TF-IDF + LinearSVC"]
-    E --> H["BERT tokenizer + fine-tuning"]
-    G --> I["Evaluate both models"]
-    H --> I
+flowchart LR
+    subgraph P["01 · Prepare data"]
+        direction TB
+        A["825 labeled notes"] --> B["Inspect classes and lengths"]
+        B --> C["Clean HTML, normalize, stem"]
+        C --> D["Stratified 80/20 split · seed 42"]
+    end
+
+    subgraph T["02 · Train models"]
+        direction TB
+        E["660 training notes"] --> F["TF-IDF + LinearSVC"]
+        E --> G["BERT · tokenize and fine-tune"]
+    end
+
+    subgraph V["03 · Evaluate"]
+        direction TB
+        H["165 held-out notes"] --> I["Accuracy, class metrics, confusion matrix"]
+    end
+
+    D --> E
+    D --> H
     F --> I
-    I --> J["Accuracy, class metrics and confusion matrix"]
+    G --> I
+
+    classDef data fill:#e8f4ef,stroke:#3e8067,color:#163d30,stroke-width:1.5px;
+    classDef process fill:#f3f6f9,stroke:#91a4b7,color:#233549,stroke-width:1px;
+    classDef model fill:#e7eff8,stroke:#4779a8,color:#193c5c,stroke-width:1.5px;
+    classDef result fill:#dceee8,stroke:#34745e,color:#163d30,stroke-width:1.5px;
+    class A,E,H data;
+    class B,C,D process;
+    class F,G model;
+    class I result;
+    style P fill:#fafbfd,stroke:#d7e0e8,color:#405469
+    style T fill:#fafbfd,stroke:#d7e0e8,color:#405469
+    style V fill:#fafbfd,stroke:#d7e0e8,color:#405469
+    linkStyle default stroke:#8193a4,stroke-width:1.4px;
 ```
 
 ## Repository guide
