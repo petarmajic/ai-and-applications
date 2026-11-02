@@ -1,0 +1,34 @@
+{
+  "source": "nlp/TP4.ipynb",
+  "dataset": "Medical Notes 2019",
+  "train_samples": 660,
+  "test_samples": 165,
+  "classes": [
+    "Gastroenterology",
+    "Neurology",
+    "Orthopedic",
+    "Radiology",
+    "Urology"
+  ],
+  "svm": {
+    "accuracy": 0.7151515151515152,
+    "per_class_f1": [
+      0.87,
+      0.4,
+      0.87,
+      0.53,
+      0.84
+    ]
+  },
+  "bert": {
+    "accuracy": 0.6121212121212121,
+    "per_class_f1": [
+      0.72,
+      0.19,
+      0.79,
+      0.58,
+      0.27
+    ]
+  },
+  "note": "F1 values are rounded as printed in the original notebook; no new training was performed."
+}
