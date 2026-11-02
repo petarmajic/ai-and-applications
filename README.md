@@ -2,7 +2,15 @@
 
 ### Computer vision and NLP practical assignments · Polytech Tours
 
-Python coursework completed during my Erasmus exchange at **Polytech Tours, Université de Tours**, for **IA et Applications (UE3.S9)**. This repository covers two modules: **Image and Video Processing and Analysis** and **Automatic Language Processing**.
+## Course context and attribution
+
+Python practical assignments completed during my Erasmus exchange at **Polytech Tours, Université de Tours**, for **IA et Applications (UE3.S9, semester S9)**. This repository covers **Image and Video Processing and Analysis** and **Automatic Language Processing**.
+
+[Official Polytech Tours website](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique)
+
+**My coursework submissions** are the OpenCV practical, TP2 preprocessing experiments, TP4 medical notes experiment and the accompanying reports. The `help_*.ipynb` files in [`nlp/TP1/`](nlp/TP1/) are guided course examples for preprocessing, LSA and Word2Vec. Their inclusion documents the material studied; it does not imply that I authored those teaching examples.
+
+The original notebooks, saved outputs and PDFs are preserved. Organization and documentation were added for easier review; the experiments have not been rerun as part of this cleanup.
 
 I worked on image filtering, segmentation and feature matching with OpenCV, then text preprocessing and medical notes classification with a TF-IDF/SVM baseline and BERT. The notebooks include code, saved outputs and written reports.
 
@@ -68,12 +76,3 @@ flowchart TD
 | [`docs/experiments.md`](docs/experiments.md) | Dataset distinctions, parameters, results and limitations |
 | [`docs/running.md`](docs/running.md) | Input files, Colab assumptions and environment notes |
 
-## Course context and attribution
-
-These practical assignments were completed for **IA et Applications (UE3.S9, semester S9)** at **Polytech Tours, Université de Tours**. This repository presents work from its computer vision and language-processing modules.
-
-[Official Computer Science department page](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique) · [Official course documentation](https://polytech.univ-tours.fr/version-francaise/documentation)
-
-**My coursework submissions** are the OpenCV practical, TP2 preprocessing experiments, TP4 medical notes experiment and the accompanying reports. The `help_*.ipynb` files in [`nlp/TP1/`](nlp/TP1/) are guided course examples for preprocessing, LSA and Word2Vec. Their inclusion documents the material studied; it does not imply that I authored those teaching examples.
-
-The original notebooks, saved outputs and PDFs are preserved. Organization and documentation were added for easier review; the experiments have not been rerun as part of this cleanup.
