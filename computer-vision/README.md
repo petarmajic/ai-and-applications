@@ -32,19 +32,19 @@ OpenCV practical assignments from **IA et Applications**, Polytech Tours. The ex
 
 ![Original grayscale image, Laplacian edges and Canny edges](../assets/edge-detection.png)
 
-The comparisons make the effect of each operator visible. Kernel size changes the amount of smoothing; edge detectors respond differently to noise and fine detail.
+Larger smoothing kernels remove more local variation but also blur fine detail. The Laplacian and Canny results show how the two operators respond to image edges.
 
 ### Cell segmentation
 
 ![Microscope image, binary mask and detected cell contours](../assets/cell-segmentation.png)
 
-The saved runs count **328 regions** with contour filtering and **373** in the later watershed-based experiment. These are algorithm outputs. Without an independently verified reference count, they do not establish counting accuracy.
+Contour filtering gives **328 regions**, while the watershed experiment gives **373**. Watershed uses markers to separate touching regions before counting them. These are the counts produced by the two methods; the exercise does not provide a reference count against which to measure accuracy.
 
 ### Feature matching
 
 ![SIFT correspondences between two object views](../assets/sift-matching.png)
 
-SIFT descriptors are matched across views, and Lowe's ratio test removes ambiguous matches. The notebook displays results for multiple image pairs. The number of retained matches is a diagnostic output, not a measured recognition accuracy.
+For each detected keypoint, SIFT produces a descriptor that can be compared across views. The matcher finds the two closest candidates and keeps the first only when its distance is below 0.75 times the second candidate's distance. The notebook displays the retained correspondences for several image pairs.
 
 ## Files and execution
 
@@ -53,4 +53,4 @@ SIFT descriptors are matched across views, and Lowe's ratio test removes ambiguo
 - [Submitted report](../docs/reports/image-processing.pdf): explanations of the methods and observed results.
 - [Assignment](../docs/course-materials/image-processing-assignment.pdf): instructor-provided exercise sheet.
 
-The notebook refers to course inputs under `aimagesTPAI2023/` and `challenges/`. Those images and video files are not part of the current upload. Saved outputs can be inspected without them; rerunning the cells requires the inputs. See [execution notes](../docs/running.md).
+The notebook refers to course inputs under `aimagesTPAI2023/` and `challenges/`. The repository includes the saved outputs, but those course images and videos are needed to run the corresponding cells. See [execution notes](../docs/running.md).

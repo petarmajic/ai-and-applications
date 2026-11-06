@@ -22,17 +22,17 @@ The experiment uses the included [`synthetic_medical_notes.csv`](TP1/synthetic_m
 
 The seven configurations are LOW, RSW, STM, LOW+RSW, LOW+STM, RSW+STM and LOW+RSW+STM. LOW means lowercasing, RSW stop-word removal and STM stemming.
 
-All seven saved classification reports show **0.73 accuracy**, rounded to two decimals, over **1,000 test notes and 14 specialties**. Per-class scores differ. Additional preprocessing did not improve the rounded overall score in these runs; the outputs do not justify claiming identical predictions.
+All seven saved classification reports show **0.73 accuracy**, rounded to two decimals, over **1,000 test notes and 14 specialties**. Per-class scores differ. The overall score stays the same at that precision, while individual class scores change between configurations.
 
 ## TP4: from raw notes to model comparison
 
 ![A cleaned note branches into sparse TF-IDF features or WordPiece tokens, BERT embeddings and twelve encoder layers before independent classification](../assets/nlp-model-overview.svg)
 
-**Figure 1.** One shared text input, two representations and independently evaluated predictions. The vector and tensor glyphs are schematic. The pretrained BERT encoder is fine-tuned with Hugging Face Trainer; the attention mask is passed to the encoder separately from the token embeddings. [Method and source references](../docs/methods.md#medical-note-classification).
+**Figure 1.** The same cleaned text is represented and classified by two models. The vector and tensor drawings are schematic. BERT is fine-tuned with Hugging Face Trainer. Its attention mask is passed to the encoder separately from the token embeddings. [Method and source references](../docs/methods.md#medical-note-classification).
 
 ### Data and preparation
 
-The notebook downloads **Medical Notes 2019** through Kaggle, reads labels and note files, and records **825 samples across five specialties**. It examines class balance and note lengths before cleaning the text.
+The notebook downloads **Medical Notes 2019** through Kaggle, reads labels and note files, and records **825 samples across five specialties**. It counts notes in each specialty and measures their lengths before cleaning the text.
 
 ![Class distribution from the saved TP4 run](../assets/nlp-class-distribution.png)
 
@@ -45,21 +45,21 @@ Cleaning removes HTML tags, lowercases text, normalizes whitespace, removes Engl
 | Input | Cleaned notes | The same cleaned notes |
 | Split | 80/20, stratified, seed 42 | 80/20, stratified, seed 42 |
 | Representation | TF-IDF, `stop_words="english"`, `max_df=0.9` | `BertTokenizerFast`, `bert-base-uncased` |
-| Input length | Vocabulary-based sparse vectors | Truncated/padded to 128 tokens |
+| Input length | Vocabulary-based sparse vectors | 128-token input, including `[CLS]` and `[SEP]` |
 | Training | `Pipeline.fit()` | Hugging Face `Trainer`, PyTorch data format |
 | BERT settings | — | 1 epoch; batch size 8; learning rate `5e-5`; weight decay `0.5` |
 | Test accuracy | **0.7151515** | **0.6121212** |
 | Macro F1, rounded | **0.70** | **0.51** |
 
-The BERT training log records **1,247 seconds**, approximately 20.8 minutes. The saved warnings report no accelerator. There is no corresponding SVM timing measurement, so this is not a measured speed comparison.
+The BERT training log records **1,247 seconds**, approximately 20.8 minutes, and reports that no accelerator was available. The notebook does not record SVM training time.
 
 ### Where the models differ
 
 ![Per-class F1 values from the saved classification reports](../assets/per-class-f1.svg)
 
-**Figure 2.** F1 scores as printed in the saved classification reports, to two decimal places. Each pair of points refers to the same specialty and held-out support.
+**Figure 2.** F1 scores from the saved classification reports, shown to two decimal places. Each pair of points compares the two models on the same specialty.
 
-The baseline is stronger on four of the five specialties in the recorded run. BERT has slightly higher F1 on Radiology but much lower recall on Neurology and Urology. A single overall accuracy would hide those differences.
+The baseline has higher F1 on four of the five specialties. BERT has slightly higher F1 on Radiology, but its recall is much lower on Neurology and Urology. These class results explain more of the difference between the models than overall accuracy alone.
 
 ![TF-IDF and SVM confusion matrix saved in TP4](../assets/nlp-confusion-matrix.png)
 
@@ -67,12 +67,12 @@ See [experiment details](../docs/experiments.md) for the recorded metrics, setup
 
 ## Interpretation
 
-This experiment provided practice with a classical baseline and a pretrained Transformer under a shared split. It also exposed choices worth revisiting: stemming before BERT, truncating long medical notes to 128 tokens and using only one training epoch.
+I used the same split to compare a TF-IDF classifier with a pretrained Transformer. This involved fitting the text vectorizer, creating Hugging Face datasets, tokenizing notes, fine-tuning BERT and comparing the class reports.
 
-No hyperparameter sweep or repeated-seed evaluation is recorded. These results describe the saved runs, rather than an optimized comparison of the two model families.
+Both models receive stemmed text. BERT uses a 128-token input including `[CLS]` and `[SEP]`, leaving at most 126 WordPiece tokens of note text. With one training epoch and no parameter search, the BERT result describes this particular setup rather than the best result the model could achieve.
 
 ## Guided material and reports
 
-The `help_*.ipynb` notebooks in [`TP1/`](TP1/) are teaching examples. They demonstrate text normalization, SVD-based representations, explained-variance plots and Gensim Word2Vec. They are kept alongside the practical work with their existing names and outputs.
+The `help_*.ipynb` notebooks in [`TP1/`](TP1/) are teaching examples. They demonstrate text normalization, SVD-based representations, explained-variance plots and Gensim Word2Vec. The practical notebooks apply text preprocessing and classification to the course datasets.
 
 [My submitted report](../docs/reports/nlp.pdf) discusses the exercises and model comparison. [Instructor assignment documents](../docs/course-materials/) provide the task context. [Execution notes](../docs/running.md) describe the required inputs and Colab paths.
