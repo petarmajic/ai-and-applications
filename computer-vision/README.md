@@ -6,6 +6,12 @@ OpenCV practical assignments from **IA et Applications**, Polytech Tours. The ex
 
 **Tools:** Python, OpenCV, NumPy and Matplotlib.
 
+## Methods
+
+![Paired contrast views and histograms, a large SIFT result and three successive cell segmentation panels](../assets/computer-vision-results.svg)
+
+**Figure 1.** Saved outputs arranged as paired contrast views, SIFT correspondences and a three-stage watershed sequence. The contour baseline and other filtering exercises are listed below. [Parameters and implementation](../docs/methods.md#image-processing-and-local-features).
+
 ## What the notebook contains
 
 | Exercise | Implementation | What it demonstrates |
@@ -39,17 +45,6 @@ The saved runs count **328 regions** with contour filtering and **373** in the l
 ![SIFT correspondences between two object views](../assets/sift-matching.png)
 
 SIFT descriptors are matched across views, and Lowe's ratio test removes ambiguous matches. The notebook displays results for multiple image pairs. The number of retained matches is a diagnostic output, not a measured recognition accuracy.
-
-```mermaid
-flowchart TD
-    A["Grayscale image"] --> B["Otsu threshold"]
-    B --> C["Binary mask"]
-    C --> D["Contours + area filter"]
-    C --> E["Morphology + distance transform"]
-    E --> F["Watershed separation"]
-    D --> G["Count and visualize regions"]
-    F --> G
-```
 
 ## Files and execution
 

@@ -26,6 +26,10 @@ All seven saved classification reports show **0.73 accuracy**, rounded to two de
 
 ## TP4: from raw notes to model comparison
 
+![A cleaned note branches into sparse TF-IDF features or WordPiece tokens, BERT embeddings and twelve encoder layers before independent classification](../assets/nlp-model-overview.svg)
+
+**Figure 1.** One shared text input, two representations and independently evaluated predictions. The vector and tensor glyphs are schematic. The pretrained BERT encoder is fine-tuned with Hugging Face Trainer; the attention mask is passed to the encoder separately from the token embeddings. [Method and source references](../docs/methods.md#medical-note-classification).
+
 ### Data and preparation
 
 The notebook downloads **Medical Notes 2019** through Kaggle, reads labels and note files, and records **825 samples across five specialties**. It examines class balance and note lengths before cleaning the text.
@@ -52,6 +56,8 @@ The BERT training log records **1,247 seconds**, approximately 20.8 minutes. The
 ### Where the models differ
 
 ![Per-class F1 values from the saved classification reports](../assets/per-class-f1.svg)
+
+**Figure 2.** F1 scores as printed in the saved classification reports, to two decimal places. Each pair of points refers to the same specialty and held-out support.
 
 The baseline is stronger on four of the five specialties in the recorded run. BERT has slightly higher F1 on Radiology but much lower recall on Neurology and Urology. A single overall accuracy would hide those differences.
 
