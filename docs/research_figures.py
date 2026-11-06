@@ -152,7 +152,7 @@ def cv_methods():
     image_panel(ax,'sift-matching.png',(75,32,478,417),945,540,166,159)
     label(ax,1028,716,'656 retained matches',14)
     label(ax,25,730,'Image panels and histogram traces are exact crops of saved outputs; descriptor glyphs are schematic.',11.5,ha='left',color=MUTED)
-    save(fig,'computer-vision-methods')
+    save(fig,'computer-vision-overview')
 
 
 def nlp_method():
@@ -243,7 +243,7 @@ def nlp_method():
     label(ax,25,626,'660 train / 165 held-out',12.5,ha='left')
     label(ax,300,607,'Stratified split · seed 42. Each model is fitted and evaluated separately.',12.5,ha='left',color=MUTED)
     label(ax,300,632,'Representation glyphs are schematic; no feature weights, attention maps or class scores are shown.',11.5,ha='left',color=MUTED)
-    save(fig,'nlp-pipeline')
+    save(fig,'nlp-model-overview')
 
 
 def comparison(metrics):

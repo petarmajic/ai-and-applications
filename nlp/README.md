@@ -26,7 +26,7 @@ All seven saved classification reports show **0.73 accuracy**, rounded to two de
 
 ## TP4: from raw notes to model comparison
 
-![A cleaned note branches into sparse TF-IDF features or WordPiece tokens, BERT embeddings and twelve encoder layers before independent classification](../assets/nlp-pipeline.svg)
+![A cleaned note branches into sparse TF-IDF features or WordPiece tokens, BERT embeddings and twelve encoder layers before independent classification](../assets/nlp-model-overview.svg)
 
 **Figure 1.** One shared text input, two representations and independently evaluated predictions. The vector and tensor glyphs are schematic. The pretrained BERT encoder is fine-tuned with Hugging Face Trainer; the attention mask is passed to the encoder separately from the token embeddings. [Method and source references](../docs/methods.md#medical-note-classification).
 

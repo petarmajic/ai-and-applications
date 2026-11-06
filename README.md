@@ -10,7 +10,7 @@ Image processing and medical text classification in Python. I implemented contra
 
 Histogram equalization, marker-based cell segmentation and SIFT matching, shown with their saved image outputs.
 
-![Original images, intensity distributions, a cleaned cell mask, watershed boundaries and SIFT correspondences connected to their processing steps](assets/computer-vision-methods.svg)
+![Original images, intensity distributions, a cleaned cell mask, watershed boundaries and SIFT correspondences connected to their processing steps](assets/computer-vision-overview.svg)
 
 **Figure 1.** Processing steps and results in one view. Image panels and histogram traces are cropped from the saved notebook figures; descriptor glyphs are schematic. Region counts have no verified reference count. [OpenCV exercises and parameters](computer-vision/README.md).
 
@@ -20,7 +20,7 @@ Histogram equalization, marker-based cell segmentation and SIFT matching, shown 
 
 ### Method
 
-![One cleaned medical note branches into a sparse TF-IDF vector and LinearSVC, or WordPiece tokens, BERT embeddings, twelve encoder layers and a five-class head](assets/nlp-pipeline.svg)
+![One cleaned medical note branches into a sparse TF-IDF vector and LinearSVC, or WordPiece tokens, BERT embeddings, twelve encoder layers and a five-class head](assets/nlp-model-overview.svg)
 
 **Figure 2.** Two independently fitted models for the same task. The sparse vector, embedding volume, encoder stack and classification head show how the representations differ. Glyphs are schematic; the BERT dimensions follow `bert-base-uncased`. [Method and source references](docs/methods.md).
 

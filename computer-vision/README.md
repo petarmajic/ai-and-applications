@@ -8,7 +8,7 @@ OpenCV practical assignments from **IA et Applications**, Polytech Tours. The ex
 
 ## Methods
 
-![Saved image panels connected to histogram equalization, the watershed segmentation path and SIFT matching](../assets/computer-vision-methods.svg)
+![Saved image panels connected to histogram equalization, the watershed segmentation path and SIFT matching](../assets/computer-vision-overview.svg)
 
 **Figure 1.** Methods connected to their saved image outputs. The watershed counting path is shown; the contour baseline and other filtering exercises are listed below. Image panels and histogram traces are exact crops from the original figures. [Parameters and implementation](../docs/methods.md#image-processing-and-local-features).
 
