@@ -10,9 +10,9 @@ Image processing and medical text classification in Python. I implemented contra
 
 Histogram equalization, marker-based cell segmentation and SIFT matching, shown with their saved image outputs.
 
-![Original images, intensity distributions, a cleaned cell mask, watershed boundaries and SIFT correspondences connected to their processing steps](assets/computer-vision-overview.svg)
+![Large before-and-after contrast views with aligned histograms, SIFT correspondences and a three-image segmentation sequence](assets/computer-vision-results.svg)
 
-**Figure 1.** Processing steps and results in one view. Image panels and histogram traces are cropped from the saved notebook figures; descriptor glyphs are schematic. Region counts have no verified reference count. [OpenCV exercises and parameters](computer-vision/README.md).
+**Figure 1.** Contrast before and after equalization, SIFT correspondences and the cell segmentation sequence. Panels are cropped from the saved notebook outputs. [Methods and parameters](computer-vision/README.md).
 
 ## Medical note classification
 

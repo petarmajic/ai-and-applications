@@ -99,60 +99,44 @@ def volume(ax, x, y, w, h, depth, color=PALE_GREEN):
 
 
 def cv_methods():
-    fig, ax = canvas(740)
-    label(ax,25,25,'(a) Contrast enhancement: image intensities and their distribution',18,ha='left',weight='bold')
-    # The crops remove the old plot titles/axes, retaining the saved image/curve pixels.
-    image_panel(ax,'histogram-equalization.png',(10,67,304,263),35,77,190,127)
-    image_panel(ax,'histogram-equalization.png',(476,68,1043,262),320,105,190,65)
-    image_panel(ax,'histogram-equalization.png',(10,343,304,539),640,77,190,127)
-    image_panel(ax,'histogram-equalization.png',(476,344,1043,538),945,105,190,65)
-    for x,text in [(130,'Original image'),(415,'Input histogram'),(735,'Enhanced contrast'),(1040,'Output histogram')]:
-        label(ax,x,56,text,14)
-    arrow(ax,[(232,140),(306,140)])
-    arrow(ax,[(520,140),(626,140)],color=BLUE)
-    label(ax,575,109,r'$T(I)$',16,color=BLUE)
-    arrow(ax,[(840,140),(931,140)])
-    label(ax,416,198,'256 intensity bins',12.5,color=MUTED)
-    label(ax,1040,198,'Histogram equalization',12.5,color=MUTED)
-    ax.plot([25,1175],[233,233],color=RULE,lw=.75)
+    """An image-led plate: paired contrast views, SIFT, then segmentation."""
+    fig, ax = canvas(935)
 
-    label(ax,25,259,'(b) Cell segmentation: foreground mask to separated regions',18,ha='left',weight='bold')
-    for source_crop,x,title in [((10,32,390,280),35,'Microscopy input'),
-                                ((405,32,785,280),495,'Cleaned binary mask'),
-                                ((800,32,1180,280),945,'Watershed boundaries')]:
-        image_panel(ax,'cell-segmentation.png',source_crop,x,310,190,124)
-        label(ax,x+95,290,title,14)
-    arrow(ax,[(234,372),(480,372)])
-    label(ax,357,343,'Otsu + opening',15,weight='bold')
-    label(ax,357,404,r'$3\times3$ kernel · 2 iterations',12.5,color=MUTED)
-    arrow(ax,[(695,372),(930,372)],color=TEAL)
-    label(ax,813,337,'Marker-based watershed',14,weight='bold')
-    label(ax,813,404,'Distance transform → markers',12.5,color=MUTED)
-    label(ax,1040,454,'373 detected regions',14,color=TEAL)
-    ax.plot([25,1175],[479,479],color=RULE,lw=.75)
+    # Paired source/output images occupy most of the left-hand panel.
+    label(ax,25,27,'(a) Contrast enhancement',18,ha='left',weight='bold')
+    for x,title,crop,trace in [
+        (35,'Original image',(10,67,304,263),(476,68,1043,262)),
+        (385,'Equalized image',(10,343,304,539),(476,344,1043,538)),
+    ]:
+        label(ax,x+150,65,title,15)
+        image_panel(ax,'histogram-equalization.png',crop,x,89,300,200)
+        image_panel(ax,'histogram-equalization.png',trace,x,332,300,103)
+    arrow(ax,[(344,189),(376,189)],color=BLUE)
+    label(ax,360,311,'Intensity distributions',13.5,color=MUTED)
+    label(ax,360,469,'Histogram equalization · 256 bins',14)
 
-    label(ax,25,506,'(c) Local feature matching: descriptors to correspondences',18,ha='left',weight='bold')
-    # Abstract image planes and descriptor rows show representation type only.
-    for x,y,symbol in [(49,574,r'$I_A$'),(111,593,r'$I_B$')]:
-        ax.add_patch(Rectangle((x,y),86,77,facecolor=PALE_BLUE,edgecolor=INK,lw=.7))
-        label(ax,x+43,y+38,symbol,20)
-    label(ax,126,688,'Two object views',14)
-    arrow(ax,[(214,621),(292,621)])
-    for r in range(5):
-        for c in range(8):
-            ax.add_patch(Rectangle((321+c*14,574+r*17),11,12,
-                                   facecolor=PALE_BLUE,edgecolor=RULE,lw=.45))
-    label(ax,372,550,'SIFT descriptors',15,weight='bold')
-    label(ax,372,688,'Local keypoint representation',12.5,color=MUTED)
-    arrow(ax,[(445,621),(521,621)])
-    label(ax,678,588,r'2-nearest neighbours',16,weight='bold')
-    label(ax,678,626,r'$d_1<0.75\,d_2$',20,color=BLUE)
-    label(ax,678,666,'Lowe ratio test',14)
-    arrow(ax,[(825,621),(926,621)])
-    image_panel(ax,'sift-matching.png',(75,32,478,417),945,540,166,159)
-    label(ax,1028,716,'656 retained matches',14)
-    label(ax,25,730,'Image panels and histogram traces are exact crops of saved outputs; descriptor glyphs are schematic.',11.5,ha='left',color=MUTED)
-    save(fig,'computer-vision-overview')
+    # The matching result gets its full source-pixel width rather than an icon.
+    ax.plot([719,719],[24,515],color=RULE,lw=.75)
+    label(ax,753,27,'(b) Local feature matching',18,ha='left',weight='bold')
+    image_panel(ax,'sift-matching.png',(75,32,478,417),758,70,403,385)
+    label(ax,960,482,'656 retained matches',15,color=BLUE)
+    label(ax,960,510,r'SIFT · 2-nearest neighbours · $d_1<0.75d_2$',12.5,color=MUTED)
+
+    ax.plot([25,1175],[543,543],color=RULE,lw=.75)
+    label(ax,25,574,'(c) Cell segmentation',18,ha='left',weight='bold')
+    panels=[
+        (35,'Microscopy input',(10,32,390,280),'Original grayscale image'),
+        (425,'Otsu + opening',(405,32,785,280),r'$3\times3$ kernel · 2 iterations'),
+        (815,'Marker-based watershed',(800,32,1180,280),'Distance transform + markers'),
+    ]
+    for x,title,crop,note in panels:
+        label(ax,x+175,615,title,15)
+        image_panel(ax,'cell-segmentation.png',crop,x,642,350,228.42)
+        label(ax,x+175,898,note,12.5,color=MUTED)
+    arrow(ax,[(393,756),(417,756)])
+    arrow(ax,[(783,756),(807,756)],color=TEAL)
+    label(ax,990,923,'373 detected regions',14,color=TEAL)
+    save(fig,'computer-vision-results')
 
 
 def nlp_method():

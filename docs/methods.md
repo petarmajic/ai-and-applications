@@ -20,7 +20,7 @@ The region counts have no verified reference count. SIFT match counts are descri
 
 ### Image panels in the overview
 
-The overview places saved image panels directly beside their processing steps. Source pixels are cropped from the existing PNG figures to remove their old titles and surrounding margins. No processing or matching is rerun to make the overview.
+The overview pairs the original and equalized images with their histograms, places the SIFT result alongside them, and shows three larger segmentation images below. Source pixels are cropped from the existing PNG figures to remove their old titles and surrounding margins. No processing or matching is rerun to make the overview.
 
 | Source figure | Panels used |
 | --- | --- |
@@ -28,7 +28,7 @@ The overview places saved image panels directly beside their processing steps. S
 | `assets/cell-segmentation.png` | Original microscopy input, cleaned binary mask and final watershed boundaries |
 | `assets/sift-matching.png` | The saved matched pair, with 656 retained matches in its original title |
 
-The histogram traces are qualitative views of the saved curves, without new numerical axes. The descriptor rows and input-plane symbols in the SIFT path show representation types; they do not contain extracted feature values. The overview shows the watershed path; the contour baseline and other operators remain documented in the module guide and the table above.
+The histogram traces are qualitative views of the saved curves, without new numerical axes. The segmentation sequence shows the watershed path; the contour baseline and other operators remain documented in the module guide and the table above.
 
 ## Medical note classification
 

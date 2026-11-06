@@ -4,7 +4,7 @@
 
 | Figure | Source |
 | --- | --- |
-| `computer-vision-overview.svg` | Exact crops from the saved histogram-equalization, cell-segmentation and SIFT figures, connected to their implemented processing steps; descriptor glyphs are schematic |
+| `computer-vision-results.svg` | Paired grayscale images with aligned histogram traces, the saved SIFT result and a three-stage cell segmentation sequence; all image panels are crops from the original PNG outputs |
 | `nlp-model-overview.svg` | TP4 cells 10–21, with BERT dimensions from the published configuration; sparse vectors, coefficient matrices, token positions, embedding volumes and neuron connections are schematic |
 | `model-comparison.svg` | Saved TP4 accuracy and macro F1 for the same 165 held-out notes |
 | `per-class-f1.svg` | F1 values printed in the two saved TP4 classification reports |
