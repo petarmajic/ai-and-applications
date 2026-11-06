@@ -1,57 +1,55 @@
 # AI and Applications
 
-### Computer vision and NLP practical assignments · Polytech Tours
-
-Completed during my Erasmus semester at [Polytech Tours, Université de Tours](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique), as practical coursework for **IA et Applications (UE3.S9)**.
-
-I worked on image filtering, segmentation and feature matching with OpenCV, then text preprocessing and medical notes classification with a TF-IDF/SVM baseline and BERT. The notebooks include code, saved outputs and written reports.
+Image processing and medical text classification in Python. I implemented contrast enhancement, cell segmentation and SIFT matching with OpenCV, then compared a TF-IDF/LinearSVC baseline with a fine-tuned BERT classifier.
 
 **Python · OpenCV · NumPy · pandas · scikit-learn · NLTK · Hugging Face Transformers · PyTorch · Matplotlib**
 
-[Computer vision](computer-vision/README.md) · [NLP](nlp/README.md) · [Experiment details](docs/experiments.md) · [Running the notebooks](docs/running.md)
+[OpenCV notebook](computer-vision/TP1.ipynb) · [Preprocessing experiments](nlp/TP2.ipynb) · [Medical notes notebook](nlp/TP4.ipynb)
 
-## At a glance
+## Image processing and local features
 
-| Work | Technical skills | Evidence |
-| --- | --- | --- |
-| **Image processing** | Histograms, contrast enhancement, convolution, smoothing, Laplacian and Canny edges | [OpenCV notebook](computer-vision/TP1.ipynb) |
-| **Segmentation and matching** | Otsu thresholding, morphology, contours, watershed and SIFT descriptor matching | [Visual results](computer-vision/README.md#selected-results) |
-| **Preprocessing experiments** | Seven combinations of lowercasing, stop-word removal and stemming; TF-IDF + LinearSVC; stratified holdout | [TP2 notebook](nlp/TP2.ipynb) |
-| **Medical text classification** | HTML cleaning, exploratory analysis, scikit-learn Pipeline, BERT tokenization and fine-tuning with Hugging Face Trainer | [TP4 notebook](nlp/TP4.ipynb) |
-| **Model evaluation** | Accuracy, per-class precision/recall/F1, confusion matrix and comparison of saved runs | [Results and setup](docs/experiments.md) |
+The OpenCV exercises examine how intensity distributions, spatial operators and local descriptors change the information extracted from an image.
 
-## Computer vision: inspect the output
+![Three independent OpenCV exercises: intensity processing, cell segmentation with two counting methods, and SIFT descriptor matching](assets/computer-vision-methods.svg)
+
+**Figure 1.** Implemented methods and saved outputs. The contour and watershed counts describe detected regions; no reference count is available to measure counting accuracy. [Implementation details](computer-vision/README.md).
 
 | Contrast enhancement | Feature matching |
 | --- | --- |
-| ![Before and after histogram equalization, with the corresponding histograms](assets/histogram-equalization.png) | ![SIFT correspondences between two views of the same object](assets/sift-matching.png) |
+| ![Saved grayscale images and histograms before and after histogram equalization](assets/histogram-equalization.png) | ![Saved SIFT correspondences between two views of an object](assets/sift-matching.png) |
 
-These are outputs saved in the coursework notebook. The module also covers noise reduction, edge detection, cell counting and a basic video frame-processing loop.
+**Figure 2.** Original notebook outputs. The module guide also includes edge maps and the cell segmentation result.
 
-## NLP: compare a baseline with BERT
+## Medical note classification
 
-**Task:** classify medical notes into five specialties. The notebook loads **825 labeled notes**, inspects class and text-length distributions, cleans the text and uses a **stratified 80/20 split: 660 training and 165 test notes**.
+**Task:** assign a medical note to one of five specialties: Gastroenterology, Neurology, Orthopedic, Radiology or Urology. The recorded dataset contains **825 notes**, split into **660 training** and **165 held-out** samples with label stratification.
 
-| Model | Test accuracy | Setup |
-| --- | ---: | --- |
-| TF-IDF + LinearSVC | **71.52%** | scikit-learn Pipeline; TF-IDF fitted on the training set |
-| `bert-base-uncased` | **61.21%** | 1 epoch, batch size 8, learning rate `5e-5`, maximum length 128 tokens |
+### Method
 
-![Saved test accuracy for TF-IDF + SVM and BERT](assets/model-comparison.svg)
+![Medical notes experiment: shared cleaning and stratified split, TF-IDF with LinearSVC, and a pretrained BERT encoder with a five-class head](assets/nlp-pipeline.svg)
 
-The baseline performed better in this run. BERT used one epoch and truncated inputs to 128 tokens; both approaches received the same cleaned text, including stemming. These choices limit what the comparison says about the models more broadly. [Full protocol and interpretation →](docs/experiments.md)
+**Figure 3.** Data preparation, representations and classification heads in TP4. TF-IDF learns its vocabulary and IDF weights from training text. BERT uses the pretrained `bert-base-uncased` encoder through Hugging Face `BertForSequenceClassification`. [Method and source references](docs/methods.md).
 
-![Medical notes pipeline: preprocessing, stratified split, SVM and BERT training, and held-out evaluation](assets/nlp-pipeline.svg)
+### Recorded results
+
+![Test accuracy and macro F1 for TF-IDF with LinearSVC and BERT, evaluated on the same 165 held-out notes](assets/model-comparison.svg)
+
+**Figure 4.** Results from the saved TP4 classification reports. Accuracy is shown to two decimal places; macro F1 is available at the report's two-decimal precision.
+
+The baseline performed better in this run. Both models received stemmed text, while BERT was trained for one epoch with a 128-token limit. This is one recorded configuration on one split. [Per-class results](nlp/README.md#where-the-models-differ) · [Experiment protocol](docs/experiments.md).
+
+## Preprocessing experiments
+
+TP2 compares seven combinations of lowercasing, stop-word removal and Porter stemming using TF-IDF + LinearSVC. Its synthetic dataset has **14 specialties** and **1,000 held-out notes**. All seven saved reports print accuracy as **0.73**, with differences in class-level scores. This is a separate dataset from the five-specialty TP4 experiment. [TP2 setup and results](nlp/README.md#tp2-preprocessing-experiments).
 
 ## Repository guide
 
-| Location | Contents |
-| --- | --- |
-| [`computer-vision/`](computer-vision/) | Original OpenCV notebook and HTML export, with a guide to the exercises |
-| [`nlp/`](nlp/) | TP2 preprocessing comparison, TP4 classification experiment and TP1 teaching examples |
-| [`docs/reports/`](docs/reports/) | My original submitted reports |
-| [`docs/course-materials/`](docs/course-materials/) | Instructor-provided assignment documents |
-| [`assets/`](assets/) | Selected saved figures and a chart derived from recorded accuracy values |
-| [`docs/experiments.md`](docs/experiments.md) | Dataset distinctions, parameters, results and limitations |
-| [`docs/running.md`](docs/running.md) | Input files, Colab assumptions and environment notes |
+| Location | Contents | Start here |
+| --- | --- | --- |
+| [`computer-vision/`](computer-vision/) | OpenCV exercises, saved figures and HTML export | [Module guide](computer-vision/README.md) |
+| [`nlp/`](nlp/) | Preprocessing experiments, medical note classification and guided TP1 examples | [Module guide](nlp/README.md) |
+| [`docs/reports/`](docs/reports/) | Submitted coursework reports | [Image processing](docs/reports/image-processing.pdf) · [NLP](docs/reports/nlp.pdf) |
+| [`docs/`](docs/) | Methods, experimental settings and input requirements | [Experiments](docs/experiments.md) · [Execution notes](docs/running.md) |
+| [`assets/`](assets/) | Research diagrams, recorded metrics plots and original saved outputs | [Figure sources](assets/README.md) |
 
+*Practical coursework for IA et Applications (UE3.S9): Image and Video Processing and Analysis, and Automatic Language Processing. Completed during my Erasmus semester at [Polytech Tours, Université de Tours](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique).*

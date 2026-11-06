@@ -42,4 +42,4 @@ From the repository root, with Python and Matplotlib installed:
 python docs/plot_results.py
 ```
 
-This reads saved metrics from JSON and writes the two SVG charts under `assets/`. It does not execute the notebooks or train a model. The setup instructions above describe the code that is present; notebook execution has not been validated in a fresh environment.
+This checks saved TP4 accuracy and F1 values against `nlp/TP4.ipynb`, then writes four SVG figures under `assets/`: the OpenCV methods, the TP4 model diagram, the overall metric comparison and the per-class F1 plot. It does not execute the notebooks or train a model. Notebook execution has not been validated in a fresh environment.
