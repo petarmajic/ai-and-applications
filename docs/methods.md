@@ -2,7 +2,7 @@
 
 [Overview](../README.md) · [Experimental settings](experiments.md)
 
-The diagrams summarize code in the original notebooks. The OpenCV paths are separate exercises. The medical text diagram describes one supervised classification experiment with two representations.
+The diagrams connect the original notebook methods to their inputs and outputs. The OpenCV paths are separate exercises. The medical text diagram follows one cleaned note through two independently fitted representations and classifiers.
 
 ## Image processing and local features
 
@@ -17,6 +17,18 @@ The diagrams summarize code in the original notebooks. The OpenCV paths are sepa
 | Local matching | SIFT keypoints/descriptors; brute-force 2-nearest-neighbour matching; retain a match when its distance is below 0.75 times the second candidate's distance | Correspondences between views of the same object |
 
 The region counts have no verified reference count. SIFT match counts are descriptive outputs, not recognition accuracy. The notebook also includes a grayscale video frame loop and a rotated-icon comparison exercise.
+
+### Image panels in the overview
+
+The overview places saved image panels directly beside their processing steps. Source pixels are cropped from the existing PNG figures to remove their old titles and surrounding margins. No processing or matching is rerun to make the overview.
+
+| Source figure | Panels used |
+| --- | --- |
+| `assets/histogram-equalization.png` | Original and equalized grayscale images, and the two saved histogram traces |
+| `assets/cell-segmentation.png` | Original microscopy input, cleaned binary mask and final watershed boundaries |
+| `assets/sift-matching.png` | The saved matched pair, with 656 retained matches in its original title |
+
+The histogram traces are qualitative views of the saved curves, without new numerical axes. The descriptor rows and input-plane symbols in the SIFT path show representation types; they do not contain extracted feature values. The overview shows the watershed path; the contour baseline and other operators remain documented in the module guide and the table above.
 
 ## Medical note classification
 
@@ -44,6 +56,10 @@ The pretrained BERT base configuration has **12 encoder layers, 12 attention hea
 
 `BertTokenizerFast` pads or truncates each note to **128 tokens**, including special tokens, and passes `input_ids` and `attention_mask`. That experiment-specific input limit is distinct from the pretrained model's positional capacity. The encoder drawing indicates repeated layers; it does not show measured attention or activations.
 
+In the diagram, token IDs become a **128 × 768** embedding representation for one padded input. The attention mask bypasses the embedding glyph and enters the encoder. Each repeated BERT layer is summarized as self-attention, a residual connection with layer normalization, a feed-forward sublayer, and a second residual connection with layer normalization. The head uses the pooled `[CLS]` representation and a 768-to-5 projection.
+
+The sparse vector, SVM coefficient matrix, token strip, embedding volume and neuron connections are schematic. Colored positions illustrate sparsity rather than learned TF-IDF values. No weights, attention patterns, class scores or predictions were generated for these glyphs. Both model paths end in the same five-class label space and apply `argmax` independently; they are not combined into an ensemble.
+
 The encoder and head come from Hugging Face Transformers. My implementation covers data preparation, model setup, fine-tuning and evaluation. The notebook does not implement a new Transformer architecture. Recorded settings and the comparison's limits are in [Experiments](experiments.md).
 
 Model references: [BERT base configuration](https://huggingface.co/google-bert/bert-base-uncased/blob/main/config.json) · [BERT sequence-classification documentation](https://huggingface.co/docs/transformers/model_doc/bert#transformers.BertForSequenceClassification).
@@ -52,4 +68,4 @@ Model references: [BERT base configuration](https://huggingface.co/google-bert/b
 
 [`research_figures.py`](research_figures.py) checks the plotted TP4 metrics against the notebook's saved reports and draws the method diagrams and metric plots. Accuracy uses the saved full-precision values. Macro and per-class F1 retain the printed two-decimal precision.
 
-The figures use outlined SVG text so the typography remains consistent when displayed on GitHub. Recreate them with `python docs/plot_results.py`; this does not train or evaluate a model.
+The figures use outlined SVG text so the typography remains consistent when displayed on GitHub. Recreate them with `python docs/plot_results.py`, using Matplotlib and Pillow; this does not train or evaluate a model.

@@ -36,10 +36,10 @@ The [`nlp/TP1/`](../nlp/TP1/) notebooks use NLTK resources and, for Word2Vec, Ge
 
 ## Recreate the documentation charts
 
-From the repository root, with Python and Matplotlib installed:
+From the repository root, with Python, Matplotlib and Pillow installed:
 
 ```bash
 python docs/plot_results.py
 ```
 
-This checks saved TP4 accuracy and F1 values against `nlp/TP4.ipynb`, then writes four SVG figures under `assets/`: the OpenCV methods, the TP4 model diagram, the overall metric comparison and the per-class F1 plot. It does not execute the notebooks or train a model. Notebook execution has not been validated in a fresh environment.
+This checks saved TP4 accuracy and F1 values against `nlp/TP4.ipynb`, then writes four SVG figures under `assets/`: the OpenCV methods with crops of the saved image outputs, the TP4 representation diagram, the overall metric comparison and the per-class F1 plot. It reads the existing PNG files to compose the OpenCV figure. It does not execute the notebooks or train a model. Notebook execution has not been validated in a fresh environment.

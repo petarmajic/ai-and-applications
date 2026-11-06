@@ -8,9 +8,9 @@ OpenCV practical assignments from **IA et Applications**, Polytech Tours. The ex
 
 ## Methods
 
-![Independent OpenCV exercises: intensity operators, contour and watershed segmentation, and SIFT matching](../assets/computer-vision-methods.svg)
+![Saved image panels connected to histogram equalization, the watershed segmentation path and SIFT matching](../assets/computer-vision-methods.svg)
 
-**Figure 1.** Operations implemented in the notebook. The two cell-counting paths share an Otsu mask; filtering and feature matching are separate exercises. [Parameters and implementation](../docs/methods.md#image-processing-and-local-features).
+**Figure 1.** Methods connected to their saved image outputs. The watershed counting path is shown; the contour baseline and other filtering exercises are listed below. Image panels and histogram traces are exact crops from the original figures. [Parameters and implementation](../docs/methods.md#image-processing-and-local-features).
 
 ## What the notebook contains
 

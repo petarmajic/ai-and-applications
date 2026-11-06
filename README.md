@@ -8,17 +8,11 @@ Image processing and medical text classification in Python. I implemented contra
 
 ## Image processing and local features
 
-The OpenCV exercises examine how intensity distributions, spatial operators and local descriptors change the information extracted from an image.
+Histogram equalization, marker-based cell segmentation and SIFT matching, shown with their saved image outputs.
 
-![Three independent OpenCV exercises: intensity processing, cell segmentation with two counting methods, and SIFT descriptor matching](assets/computer-vision-methods.svg)
+![Original images, intensity distributions, a cleaned cell mask, watershed boundaries and SIFT correspondences connected to their processing steps](assets/computer-vision-methods.svg)
 
-**Figure 1.** Implemented methods and saved outputs. The contour and watershed counts describe detected regions; no reference count is available to measure counting accuracy. [Implementation details](computer-vision/README.md).
-
-| Contrast enhancement | Feature matching |
-| --- | --- |
-| ![Saved grayscale images and histograms before and after histogram equalization](assets/histogram-equalization.png) | ![Saved SIFT correspondences between two views of an object](assets/sift-matching.png) |
-
-**Figure 2.** Original notebook outputs. The module guide also includes edge maps and the cell segmentation result.
+**Figure 1.** Processing steps and results in one view. Image panels and histogram traces are cropped from the saved notebook figures; descriptor glyphs are schematic. Region counts have no verified reference count. [OpenCV exercises and parameters](computer-vision/README.md).
 
 ## Medical note classification
 
@@ -26,15 +20,15 @@ The OpenCV exercises examine how intensity distributions, spatial operators and 
 
 ### Method
 
-![Medical notes experiment: shared cleaning and stratified split, TF-IDF with LinearSVC, and a pretrained BERT encoder with a five-class head](assets/nlp-pipeline.svg)
+![One cleaned medical note branches into a sparse TF-IDF vector and LinearSVC, or WordPiece tokens, BERT embeddings, twelve encoder layers and a five-class head](assets/nlp-pipeline.svg)
 
-**Figure 3.** Data preparation, representations and classification heads in TP4. TF-IDF learns its vocabulary and IDF weights from training text. BERT uses the pretrained `bert-base-uncased` encoder through Hugging Face `BertForSequenceClassification`. [Method and source references](docs/methods.md).
+**Figure 2.** Two independently fitted models for the same task. The sparse vector, embedding volume, encoder stack and classification head show how the representations differ. Glyphs are schematic; the BERT dimensions follow `bert-base-uncased`. [Method and source references](docs/methods.md).
 
 ### Recorded results
 
 ![Test accuracy and macro F1 for TF-IDF with LinearSVC and BERT, evaluated on the same 165 held-out notes](assets/model-comparison.svg)
 
-**Figure 4.** Results from the saved TP4 classification reports. Accuracy is shown to two decimal places; macro F1 is available at the report's two-decimal precision.
+**Figure 3.** Results from the saved TP4 classification reports. Accuracy is shown to two decimal places; macro F1 is available at the report's two-decimal precision.
 
 The baseline performed better in this run. Both models received stemmed text, while BERT was trained for one epoch with a 128-token limit. This is one recorded configuration on one split. [Per-class results](nlp/README.md#where-the-models-differ) · [Experiment protocol](docs/experiments.md).
 
