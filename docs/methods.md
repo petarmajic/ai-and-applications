@@ -18,9 +18,11 @@ In the vision practical, I changed how images were filtered, segmented or matche
 
 The exercise supplies no reference cell count for the microscopy image. For SIFT, the count tells us how many descriptor pairs passed the ratio test. The notebook also reads video frames in grayscale and compares cropped icons at quarter-turn rotations.
 
-### Image panels in the overview
+### Sources for the image panels
 
-I used crops of the saved figures so the overview shows the actual input and output of each operation.
+The [main README](../README.md) shows the edge comparison from TP1. The notebook reads `monalisa.png` in grayscale, takes the absolute value of the Laplacian response with `convertScaleAbs` and runs `Canny(img, 100, 200)` on the same input. The [three-panel figure](../assets/edge-detection.png) is the PNG saved in that cell’s output.
+
+The composite in the [vision guide](../computer-vision/README.md#methods) uses crops from three other saved figures.
 
 | Source figure | Panels used |
 | --- | --- |

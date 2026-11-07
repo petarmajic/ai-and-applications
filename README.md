@@ -1,18 +1,18 @@
 # AI and Applications
 
-I used OpenCV to compare two ways of counting cells that touch in a microscopy image. I also matched features between photographs of the same book taken from different angles. In a separate experiment, I trained a linear SVM and fine-tuned BERT to predict a medical note’s specialty. I tested both classifiers on the same 165 held-out notes.
+The vision notebook turns a grayscale image of the *Mona Lisa* into two edge maps. I used OpenCV to compare what each detector picked up around the face and in the background. In a separate experiment, I trained a linear SVM and fine-tuned BERT to predict a medical note’s specialty. I tested both classifiers on the same 165 held-out notes.
 
 [OpenCV notebook](computer-vision/TP1.ipynb) · [Text preprocessing notebook](nlp/TP2.ipynb) · [Medical note classification notebook](nlp/TP4.ipynb)
 
 ## Image processing and local features
 
-An intensity threshold can leave touching cells connected. I counted contours larger than 8.5 px² and found **328 candidate regions**. I then used a distance transform to place markers inside the cells so watershed could separate neighbouring regions. That method gave **373 regions** on the same image. The exercise has no reference count to establish which estimate is closer.
+I applied the Laplacian and Canny to the same portrait so I could compare their outputs directly. The Laplacian picks up fine texture across the background. In the Canny map, the curve of the cheek and the edges of the fingers stand out as thin white lines.
 
-![Original and equalized grayscale images with histograms, SIFT matches between two photographs, and a microscopy image before and after watershed segmentation.](assets/computer-vision-results.svg)
+![Three views of the Mona Lisa: the grayscale portrait, the magnitude of its Laplacian response and its binary Canny edge map.](assets/edge-detection.png)
 
-**Figure 1.** (a) Grayscale intensities before and after histogram equalization. (b) Matching features across two views of a book. (c) The microscopy image, its cleaned binary mask and the watershed boundaries. [Methods and parameters](computer-vision/README.md).
+**Figure 1.** From left to right, the grayscale input, the absolute Laplacian response and the Canny edge map computed with thresholds of 100 and 200.
 
-In the book example, I kept a SIFT match when the nearest descriptor was less than 0.75 times as far away as the second-nearest descriptor. **656 matches** passed that test for the two photographs shown.
+I also used SIFT to match features across two photographs of the same book. On that pair, 656 matches passed the 0.75 distance ratio test. The vision guide includes the matched photographs and a comparison of two ways to count regions in a microscopy image. [Book photographs](computer-vision/README.md#feature-matching) · [Cell segmentation](computer-vision/README.md#cell-segmentation).
 
 ## Medical note classification
 

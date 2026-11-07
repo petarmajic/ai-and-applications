@@ -2,7 +2,7 @@
 
 [Overview](../README.md) · [TP1 notebook](TP1.ipynb) · [HTML export](TP1.html) · [Submitted report](../docs/reports/image-processing.pdf)
 
-I used OpenCV to adjust image contrast, count regions in a microscopy field and match the same object across different views. Touching cells can share an outline, so I compared counting those outlines with counting regions grown from markers inside the cells.
+I used a grayscale image of the *Mona Lisa* to compare smoothing filters and edge detectors in OpenCV. I also counted regions in a microscopy field and matched features across photographs of the same book.
 
 ## Methods
 
@@ -27,11 +27,11 @@ I used OpenCV to adjust image contrast, count regions in a microscopy field and 
 
 ### Filtering and edge detection
 
-![Grayscale portrait with the Laplacian response and the Canny edge map beside it.](../assets/edge-detection.png)
+![The Mona Lisa in grayscale, followed by the absolute Laplacian response and the Canny edge map.](../assets/edge-detection.png)
 
-**Figure 2.** On the same portrait, the Laplacian shows changes in intensity while Canny traces edges using thresholds of 100 and 200.
+**Figure 2.** The absolute Laplacian response picks up texture around the face. Canny marks edges in white using thresholds of 100 and 200.
 
-A larger mean filter smooths out fine detail along with noise. I compared the filter sizes on the same image so the input stayed fixed.
+In the smoothing exercise, I used the same portrait and increased the mean filter from 5 × 5 to 9 × 9 and then 15 × 15. The larger windows average more neighbouring pixels, which softens finer details in the portrait.
 
 ### Cell segmentation
 
