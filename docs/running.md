@@ -1,45 +1,41 @@
 # Working with the notebooks
 
-[← Overview](../README.md)
+[Overview](../README.md)
 
-The notebooks were written for Jupyter and Google Colab. Each expects its input files at particular paths, listed below.
+The notebooks include the outputs of the coursework runs. You can inspect the images and metrics directly or rerun the exercises with the inputs listed below.
 
 ## Inspect saved work
 
-GitHub can render the `.ipynb` files. The large computer vision notebook may take time to load; [`computer-vision/TP1.html`](../computer-vision/TP1.html) is an alternative export to download and open in a browser. The [reports](reports/) provide a shorter walkthrough.
+Open the notebooks on GitHub, or download the [TP1 HTML export](../computer-vision/TP1.html) and open it locally if the large vision notebook is slow to render. The [submitted reports](reports/) give a shorter account of the two practicals.
 
 ## Computer vision
 
-Open [`computer-vision/TP1.ipynb`](../computer-vision/TP1.ipynb) in Jupyter or VS Code.
+Open [TP1](../computer-vision/TP1.ipynb) in Jupyter or VS Code. The HTML export records Python 3.11.2 and OpenCV 4.12.0. The notebook also uses NumPy and Matplotlib, and the final icon exercise imports structural similarity from scikit-image.
 
-The saved code imports OpenCV, NumPy and Matplotlib and expects `aimagesTPAI2023/data/`, additional object-matching inputs and a `challenges/` directory relative to the notebook working directory. The original image and video inputs have not been uploaded. Restore those course inputs before rerunning the relevant cells.
+The course image and video files are absent from this repository. Restore `aimagesTPAI2023/data/` relative to the notebook’s working directory. The SIFT exercise reads the two sets of object photographs from `task4/`. The icon exercise reads from `challenges/`. Cells that call `cv2.imshow` and `cv2.waitKey` need a desktop display. The saved Matplotlib figures can be inspected without one.
 
-Some examples use OpenCV GUI windows (`imshow`/`waitKey`), which require a desktop display. Inspect the saved Matplotlib outputs in headless environments. The HTML export records Python 3.11.2 and OpenCV 4.12.0.
+To rerun the final icon-comparison cell from the archived notebook, remove the stray `å` before the indented `return False` in `icon_similar`. Python must be able to parse that line before it can run the cell.
 
-## TP2 — preprocessing comparison
+## TP2 preprocessing comparison
 
-Open [`nlp/TP2.ipynb`](../nlp/TP2.ipynb) in Colab. It imports pandas, scikit-learn and NLTK and downloads NLTK English stop words.
+Open [TP2](../nlp/TP2.ipynb) in Colab and upload the [synthetic notes CSV](../nlp/TP1/synthetic_medical_notes.csv) to `/content/synthetic_medical_notes.csv`, the path used by `read_csv`. Locally, set that path to your copy of the file. The notebook uses pandas, scikit-learn and NLTK and downloads the English stop-word list.
 
-The input path is `/content/synthetic_medical_notes.csv`. Upload the included [`CSV`](../nlp/TP1/synthetic_medical_notes.csv) to that location. For local execution, change the read operation to the included file's location.
+## TP4 medical note classification
 
-## TP4 — medical notes classification
+[TP4](../nlp/TP4.ipynb) uses Colab’s upload widget for your own Kaggle credentials and downloads the `medicalnotes-2019` competition archive. The loader expects `data/trainLabels.csv` and note files under `data/notes/data/`. Check the extracted paths before loading the notes. The unzip cells can prompt before overwriting existing files.
 
-[`nlp/TP4.ipynb`](../nlp/TP4.ipynb) uses Colab's upload widget, a Kaggle credential file and the `medicalnotes-2019` competition download. You need your own Kaggle access; credentials are not included.
+A setup cell installs Transformers, Datasets, PyTorch and Accelerate. The notebook also uses pandas, NumPy, Matplotlib, scikit-learn and NLTK. The package versions are unpinned. Fine-tuning requires the `bert-base-uncased` weights. In the saved run, training took about 20.8 minutes without an accelerator.
 
-The code expects `data/trainLabels.csv` and note files under `data/notes/data/`. Check this against the extracted archive layout before running. Its unzip steps are interactive if files already exist.
+## TP1 guided examples
 
-The notebook installs Transformers, Datasets, PyTorch and Accelerate in a cell and uses pandas, NumPy, Matplotlib, scikit-learn and NLTK. Library versions are not pinned. Training downloads the pretrained BERT model. The recorded run took about 20.8 minutes without an accelerator.
-
-## TP1 — guided examples
-
-The [`nlp/TP1/`](../nlp/TP1/) notebooks use NLTK resources and, for Word2Vec, Gensim. Some saved resource-download messages show errors even though later outputs exist. Follow the installed NLTK version's resource requirements when rerunning these examples.
+The [three teaching notebooks](../nlp/TP1/) cover preprocessing, latent semantic analysis and Word2Vec. They use NLTK resources and the Word2Vec example also uses Gensim. Some saved NLTK downloads reported errors even though later cells have outputs. Check that the resources requested by your installed version are available before rerunning.
 
 ## Recreate the documentation charts
 
-From the repository root, with Python, Matplotlib and Pillow installed:
+Run this command from the repository root with Python, Matplotlib and Pillow installed.
 
 ```bash
 python docs/plot_results.py
 ```
 
-This checks saved TP4 accuracy and F1 values against `nlp/TP4.ipynb`, then writes four SVG figures under `assets/`: the OpenCV methods with crops of the saved image outputs, the TP4 representation diagram, the overall metric comparison and the per-class F1 plot. It reads the existing PNG files to compose the OpenCV figure. The figure command uses the included outputs and metric files.
+The script reads the saved TP4 reports and validates accuracy and F1 before plotting the overall and per-class scores. It also rebuilds the OpenCV figure from the included PNGs and draws the two text representations. The four SVG files are written to `assets/`.
