@@ -6,13 +6,21 @@ The vision notebook turns a grayscale image of the *Mona Lisa* into two edge map
 
 ## Image processing and local features
 
+### Edge detection on the Mona Lisa
+
 I applied the Laplacian and Canny to the same portrait so I could compare their outputs directly. The Laplacian picks up fine texture across the background. In the Canny map, the curve of the cheek and the edges of the fingers stand out as thin white lines.
 
 ![Three views of the Mona Lisa: the grayscale portrait, the magnitude of its Laplacian response and its binary Canny edge map.](assets/edge-detection.png)
 
 **Figure 1.** From left to right, the grayscale input, the absolute Laplacian response and the Canny edge map computed with thresholds of 100 and 200.
 
-I also used SIFT to match features across two photographs of the same book. On that pair, 656 matches passed the 0.75 distance ratio test. The vision guide includes the matched photographs and a comparison of two ways to count regions in a microscopy image. [Book photographs](computer-vision/README.md#feature-matching) · [Cell segmentation](computer-vision/README.md#cell-segmentation).
+### Contrast, feature matching and segmentation
+
+I equalized the landscape image to bring out detail in the dark foreground. In the book photographs, 656 SIFT matches passed the 0.75 distance ratio test. On the microscopy image, counting contours gave 328 regions and watershed gave 373. The exercise has no reference cell count to tell which estimate is closer.
+
+![A landscape before and after histogram equalization, SIFT matches between two views of a book, and a microscopy image with its binary mask and watershed boundaries.](assets/computer-vision-results.svg)
+
+**Figure 2.** (a) Each landscape image has its intensity histogram below it. (b) Lines connect matching features in the two book photographs. (c) The bottom row follows the microscopy image from the grayscale input through the cleaned mask to the watershed boundaries. [Methods and parameters](computer-vision/README.md).
 
 ## Medical note classification
 
@@ -20,7 +28,7 @@ I trained two classifiers to assign each note to one of five specialties (Gastro
 
 ![The SVM uses TF-IDF word features. BERT processes WordPiece tokens through its encoder. Each model predicts one specialty independently.](assets/nlp-model-overview.svg)
 
-**Figure 2.** The SVM scores five specialties from a sparse vector of term weights. BERT uses the pooled first-token representation to score the same five labels. [Representations and model dimensions](docs/methods.md#medical-note-classification).
+**Figure 3.** The SVM scores five specialties from a sparse vector of term weights. BERT uses the pooled first-token representation to score the same five labels. [Representations and model dimensions](docs/methods.md#medical-note-classification).
 
 ### Recorded results
 
@@ -28,7 +36,7 @@ The TF-IDF and linear SVM baseline classified **118 of 165 notes correctly (71.5
 
 ![Test accuracy and macro F1 for the two classifiers on the same 165 held-out notes.](assets/model-comparison.svg)
 
-**Figure 3.** Accuracy is the fraction of held-out notes classified correctly. Macro F1 gives each specialty equal weight. F1 is reported to the notebook’s two-decimal precision.
+**Figure 4.** Accuracy is the fraction of held-out notes classified correctly. Macro F1 gives each specialty equal weight. F1 is reported to the notebook’s two-decimal precision.
 
 BERT correctly classified **3 of the 28 Neurology notes**. On Radiology, its F1 was **0.58**, compared with **0.53** for the SVM. BERT’s 128-token input included `[CLS]` and `[SEP]`, leaving room for at most 126 WordPiece tokens of note text. These results describe one split and one fine-tuning run. [Per-class results](nlp/README.md#where-the-models-differ) · [Training settings](docs/experiments.md).
 
