@@ -6,7 +6,7 @@ The notebooks include the outputs of the coursework runs. You can inspect the im
 
 ## Inspect saved work
 
-Open the notebooks on GitHub, or download the [TP1 HTML export](../computer-vision/TP1.html) and open it locally if the large vision notebook is slow to render. The [submitted reports](reports/) give a shorter account of the two practicals.
+Open the notebooks on GitHub. If the OpenCV exercises are slow to load, download the [TP1 HTML export](../computer-vision/TP1.html) and open it in a browser. The [submitted reports](reports/) give a shorter account of the two practicals.
 
 ## Computer vision
 

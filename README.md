@@ -1,6 +1,6 @@
 # AI and Applications
 
-The vision notebook turns a grayscale image of the *Mona Lisa* into two edge maps. I used OpenCV to compare what each detector picked up around the face and in the background. In a separate experiment, I trained a linear SVM and fine-tuned BERT to predict a medical note’s specialty. I tested both classifiers on the same 165 held-out notes.
+I used OpenCV to compare Laplacian and Canny edge detection on a grayscale image of the *Mona Lisa*. In a separate experiment, I trained a linear SVM and fine-tuned BERT to predict a medical note’s specialty. I tested both classifiers on the same 165 held-out notes.
 
 [OpenCV notebook](computer-vision/TP1.ipynb) · [Text preprocessing notebook](nlp/TP2.ipynb) · [Medical note classification notebook](nlp/TP4.ipynb)
 
@@ -8,7 +8,7 @@ The vision notebook turns a grayscale image of the *Mona Lisa* into two edge map
 
 ### Edge detection on the Mona Lisa
 
-I applied the Laplacian and Canny to the same portrait so I could compare their outputs directly. The Laplacian picks up fine texture across the background. In the Canny map, the curve of the cheek and the edges of the fingers stand out as thin white lines.
+The Laplacian picks up fine texture across the background. In the Canny map, the curve of the cheek and the edges of the fingers stand out as thin white lines.
 
 ![Three views of the Mona Lisa: the grayscale portrait, the magnitude of its Laplacian response and its binary Canny edge map.](assets/edge-detection.png)
 
