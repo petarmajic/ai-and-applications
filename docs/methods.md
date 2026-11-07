@@ -2,11 +2,11 @@
 
 [Overview](../README.md) · [Experimental settings](experiments.md)
 
-The OpenCV exercises process images using intensity operators, segmentation and local feature matching. The medical text experiment compares two ways of representing and classifying the same cleaned notes.
+In the vision practical, I changed how images were filtered, segmented or matched and inspected the resulting pixels and regions. In the text practical, I kept the cleaned notes and their specialty labels fixed and changed the model used to classify them.
 
 ## Image processing and local features
 
-**Source:** [TP1 notebook](../computer-vision/TP1.ipynb) and its [HTML export](../computer-vision/TP1.html).
+[TP1 notebook](../computer-vision/TP1.ipynb) · [HTML export](../computer-vision/TP1.html)
 
 | Exercise | Implemented operations | Output |
 | --- | --- | --- |
@@ -16,11 +16,11 @@ The OpenCV exercises process images using intensity operators, segmentation and 
 | Watershed counting | Otsu threshold; 3×3 morphological opening with two iterations; L2 distance transform; foreground threshold at 0.3 of its maximum; dilation and connected-component markers; watershed | 373 regions in the saved output |
 | Local matching | SIFT keypoints/descriptors; brute-force 2-nearest-neighbour matching; retain a match when its distance is below 0.75 times the second candidate's distance | Correspondences between views of the same object |
 
-The region counts have no verified reference count. SIFT match counts are descriptive outputs, not recognition accuracy. The notebook also includes a grayscale video frame loop and a rotated-icon comparison exercise.
+The exercise supplies no reference cell count for the microscopy image. For SIFT, the count tells us how many descriptor pairs passed the ratio test. The notebook also reads video frames in grayscale and compares cropped icons at quarter-turn rotations.
 
 ### Image panels in the overview
 
-The overview pairs the original and equalized images with their histograms, places the SIFT result alongside them, and shows three larger segmentation images below. The image panels are crops from the saved notebook figures.
+I used crops of the saved figures so the overview shows the actual input and output of each operation.
 
 | Source figure | Panels used |
 | --- | --- |
@@ -28,11 +28,11 @@ The overview pairs the original and equalized images with their histograms, plac
 | `assets/cell-segmentation.png` | Original microscopy input, cleaned binary mask and final watershed boundaries |
 | `assets/sift-matching.png` | The saved matched pair, with 656 retained matches in its original title |
 
-The histogram traces are qualitative views of the saved curves, without new numerical axes. The segmentation sequence shows the watershed path; the contour baseline and other operators remain documented in the module guide and the table above.
+The histogram crops show how the intensity distribution changed. The three microscopy panels follow the watershed path from the grayscale input to the final boundaries. [Contour baseline and filters](../computer-vision/README.md).
 
 ## Medical note classification
 
-**Source:** [TP4 notebook](../nlp/TP4.ipynb).
+[TP4 notebook](../nlp/TP4.ipynb)
 
 | Part | Code | Role |
 | --- | --- | --- |
@@ -48,21 +48,21 @@ The histogram traces are qualitative views of the saved curves, without new nume
 
 `TfidfVectorizer(stop_words="english", max_df=0.9)` is fitted inside a scikit-learn `Pipeline` with `LinearSVC()`. Its vocabulary and IDF weights are learned from the training text. Test notes are then transformed using the same fitted vectorizer.
 
-The diagram denotes a note vector as $x\in\mathbb{R}^{|V_{\mathrm{train}}|}$. The five class decision scores are $f_c(x)=w_c^{\mathsf{T}}x+b_c$, and the predicted class has the largest score. These are decision values, not calibrated probabilities. The vocabulary dimension is left symbolic because its size is not printed in the saved output.
+The diagram represents each note as a vector $x\in\mathbb{R}^{|V_{\mathrm{train}}|}$. The five class decision scores are $f_c(x)=w_c^{\mathsf{T}}x+b_c$, and the predicted class has the largest score. These scores are uncalibrated. The notebook does not record the size of the training vocabulary.
 
 ### BERT representation and head
 
-The pretrained BERT base configuration has **12 encoder layers, 12 attention heads and hidden width 768**. `BertForSequenceClassification` adds a sequence-classification head using the pooled first-token representation, dropout and a linear projection to five logits. The notebook takes `argmax` over those logits; it does not calculate or report calibrated confidence values.
+The pretrained BERT base configuration has **12 encoder layers, 12 attention heads and hidden width 768**. `BertForSequenceClassification` adds a sequence-classification head using the pooled first-token representation, dropout and a linear projection to five logits. I took `argmax` over the five logits to choose a specialty. The notebook reports no calibrated confidence values.
 
-`BertTokenizerFast` pads or truncates each input to **128 tokens**, including `[CLS]` and `[SEP]`, and passes `input_ids` and `attention_mask`. This leaves room for at most **126 WordPiece tokens of note text**. That experiment-specific input limit is distinct from the pretrained model's positional capacity. The drawing shows the repeated encoder layers schematically.
+`BertTokenizerFast` pads or truncates each input to **128 tokens**, including `[CLS]` and `[SEP]`, and passes `input_ids` and `attention_mask`. This leaves room for at most **126 WordPiece tokens of note text**. This was the input limit I used for fine-tuning.
 
-In the diagram, token IDs become a **128 × 768** embedding representation for one padded input. The attention mask is passed directly to the encoder. Each BERT layer contains self-attention, a residual connection with layer normalization, a feed-forward sublayer and another residual connection with layer normalization. The head uses the pooled `[CLS]` representation and a 768-to-5 projection.
+For one padded note, token embeddings have shape **128 × 768**. The encoder also receives an attention mask so it can ignore padding. Each BERT layer contains self-attention, a residual connection with layer normalization, a feed-forward sublayer and another residual connection with layer normalization. The head uses the pooled `[CLS]` representation and a 768-to-5 projection.
 
-The vector, matrix and tensor drawings are schematic. The coloured vector positions illustrate that TF-IDF contains many zero entries. Both models predict one of the same five specialties, with `argmax` applied separately to each model's output.
+The vectors and tensors in the diagram are schematic. Coloured positions in the sparse vector represent terms present in a note. Each classifier makes its own prediction.
 
-I used the encoder and classification head from Hugging Face Transformers. My implementation covers data preparation, model setup, fine-tuning and evaluation. Recorded settings and the comparison's limits are in [Experiments](experiments.md).
+I used the encoder and classification head from Hugging Face Transformers. I prepared the datasets, fine-tuned the classifier and compared its predictions with the SVM’s on the same held-out notes. [Settings and results](experiments.md).
 
-Model references: [BERT base configuration](https://huggingface.co/google-bert/bert-base-uncased/blob/main/config.json) · [BERT sequence-classification documentation](https://huggingface.co/docs/transformers/model_doc/bert#transformers.BertForSequenceClassification).
+[BERT base configuration](https://huggingface.co/google-bert/bert-base-uncased/blob/main/config.json) · [BERT sequence-classification documentation](https://huggingface.co/docs/transformers/model_doc/bert#transformers.BertForSequenceClassification).
 
 ## Figure generation
 

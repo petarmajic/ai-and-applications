@@ -2,41 +2,41 @@
 
 [← Overview](../README.md) · [TP2](TP2.ipynb) · [TP4](TP4.ipynb) · [My report](../docs/reports/nlp.pdf)
 
-Text preprocessing, representations and medical notes classification from **IA et Applications**, Polytech Tours.
+I compared preprocessing choices on synthetic notes in TP2. In TP4 I used a different dataset to test whether a linear SVM or a fine-tuned BERT model could better predict the specialty of a medical note.
 
-**Tools:** Python, pandas, NumPy, NLTK, scikit-learn, Hugging Face Transformers/Datasets, PyTorch and Matplotlib. Guided Word2Vec examples use Gensim.
+I prepared text with pandas and NLTK, trained the SVM in scikit-learn and fine-tuned BERT with Hugging Face Transformers and PyTorch. I used NumPy for predictions and Matplotlib for the plots. The guided TP1 notebooks use Gensim for Word2Vec.
 
 ## Work by practical
 
 | Practical | Scope | Files |
 | --- | --- | --- |
-| **TP1 — guided examples** | Tokenization, stop words, stemming, lemmatization, bag-of-words, LSA with TruncatedSVD and skip-gram Word2Vec | [`TP1/`](TP1/) |
-| **TP2 — preprocessing comparison** | Seven combinations of lowercasing, stop-word removal and stemming with TF-IDF + LinearSVC | [`TP2.ipynb`](TP2.ipynb) |
-| **TP4 — medical notes classification** | Dataset inspection, text cleaning, TF-IDF/SVM baseline, BERT fine-tuning and evaluation | [`TP4.ipynb`](TP4.ipynb) |
-
-TP2 and TP4 use **different datasets**. Their scores should not be treated as results on the same benchmark.
+| **TP1 guided examples** | Tokenization, stop words, stemming, lemmatization, bag-of-words, LSA with TruncatedSVD and skip-gram Word2Vec | [`TP1/`](TP1/) |
+| **TP2 preprocessing comparison** | Seven combinations of lowercasing, stop-word removal and stemming with TF-IDF + LinearSVC | [`TP2.ipynb`](TP2.ipynb) |
+| **TP4 medical note classification** | Dataset inspection, text cleaning, TF-IDF/SVM baseline, BERT fine-tuning and evaluation | [`TP4.ipynb`](TP4.ipynb) |
 
 ## TP2: preprocessing experiments
 
-The experiment uses the included [`synthetic_medical_notes.csv`](TP1/synthetic_medical_notes.csv). Each configuration applies a stratified 80/20 split with `random_state=42`, fits TF-IDF on the training text and evaluates LinearSVC on held-out notes.
+I used the same stratified 80/20 split (`random_state=42`) for each preprocessing run. The [synthetic dataset](TP1/synthetic_medical_notes.csv) has 5,000 notes across 14 specialties. I fitted TF-IDF on the training notes, then evaluated LinearSVC on the same 1,000 held-out notes each time.
 
-The seven configurations are LOW, RSW, STM, LOW+RSW, LOW+STM, RSW+STM and LOW+RSW+STM. LOW means lowercasing, RSW stop-word removal and STM stemming.
+I tested lowercasing (LOW), stop-word removal (RSW), Porter stemming (STM), each of the three pairs and the combination of all three. The TF-IDF vectorizer also lowercases by default, so omitting LOW does not give a case-sensitive vocabulary.
 
-All seven saved classification reports show **0.73 accuracy**, rounded to two decimals, over **1,000 test notes and 14 specialties**. Per-class scores differ. The overall score stays the same at that precision, while individual class scores change between configurations.
+All seven classification reports printed **0.73 accuracy** to two decimal places. The per-class results show differences that disappear at that precision. For example, Urology F1 was 0.68 with lowercasing alone and 0.66 with stemming alone.
 
 ## TP4: from raw notes to model comparison
 
 ![A cleaned note branches into sparse TF-IDF features or WordPiece tokens, BERT embeddings and twelve encoder layers before independent classification](../assets/nlp-model-overview.svg)
 
-**Figure 1.** The same cleaned text is represented and classified by two models. The vector and tensor drawings are schematic. BERT is fine-tuned with Hugging Face Trainer. Its attention mask is passed to the encoder separately from the token embeddings. [Method and source references](../docs/methods.md#medical-note-classification).
+**Figure 1.** The SVM scores a sparse vector of terms. BERT scores the pooled first-token representation. Its attention mask tells the encoder which positions are padding. The drawings are schematic. [Method and source references](../docs/methods.md#medical-note-classification).
 
 ### Data and preparation
 
-The notebook downloads **Medical Notes 2019** through Kaggle, reads labels and note files, and records **825 samples across five specialties**. It counts notes in each specialty and measures their lengths before cleaning the text.
+I loaded **825 notes** from Medical Notes 2019 and joined each note to its specialty using the file ID. The median length was 385 words and the longest note had 4,683 words.
 
-![Class distribution from the saved TP4 run](../assets/nlp-class-distribution.png)
+![Distribution of the 825 Medical Notes 2019 samples across five specialties.](../assets/nlp-class-distribution.png)
 
-Cleaning removes HTML tags, lowercases text, normalizes whitespace, removes English stop words and applies Porter stemming. The same cleaned text is passed to both models.
+**Figure 2.** Orthopedic had the most notes (223), and Urology had the fewest (115). I stratified the split by specialty to preserve those proportions.
+
+I removed HTML, lowercased the text, normalised whitespace, removed English stop words and applied Porter stemming. Both classifiers used this cleaned text.
 
 ### Baseline and fine-tuning
 
@@ -57,19 +57,17 @@ The BERT training log records **1,247 seconds**, approximately 20.8 minutes, and
 
 ![Per-class F1 values from the saved classification reports](../assets/per-class-f1.svg)
 
-**Figure 2.** F1 scores from the saved classification reports, shown to two decimal places. Each pair of points compares the two models on the same specialty.
+**Figure 3.** Each pair of points gives the SVM and BERT F1 scores for one specialty, rounded to the two decimal places printed in the notebook.
 
-The baseline has higher F1 on four of the five specialties. BERT has slightly higher F1 on Radiology, but its recall is much lower on Neurology and Urology. These class results explain more of the difference between the models than overall accuracy alone.
+The SVM had higher F1 on four of the five specialties. The exception was Radiology, where BERT reached 0.58 and the SVM reached 0.53.
 
-![TF-IDF and SVM confusion matrix saved in TP4](../assets/nlp-confusion-matrix.png)
+![SVM confusion matrix with true specialty by row and predicted specialty by column.](../assets/nlp-confusion-matrix.png)
 
-See [experiment details](../docs/experiments.md) for the recorded metrics, setup and interpretation.
+**Figure 4.** Of the 28 Neurology notes, the SVM classified 10 correctly and assigned 12 to Radiology.
 
 ## Interpretation
 
-I used the same split to compare a TF-IDF classifier with a pretrained Transformer. This involved fitting the text vectorizer, creating Hugging Face datasets, tokenizing notes, fine-tuning BERT and comparing the class reports.
-
-Both models receive stemmed text. BERT uses a 128-token input including `[CLS]` and `[SEP]`, leaving at most 126 WordPiece tokens of note text. With one training epoch and no parameter search, the BERT result describes this particular setup rather than the best result the model could achieve.
+A median-length raw note had 385 words. BERT had room for at most **126 WordPiece tokens** of cleaned note text after reserving two positions for `[CLS]` and `[SEP]`. Longer token sequences were truncated. I fine-tuned BERT for **one epoch** and did not run a parameter search. The comparison measures these two configurations on one held-out split. [Full metrics and experiment settings](../docs/experiments.md).
 
 ## Guided material and reports
 

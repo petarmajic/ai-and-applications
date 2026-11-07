@@ -2,13 +2,15 @@
 
 [Overview](../README.md)
 
-| Figure | Source |
-| --- | --- |
-| `computer-vision-results.svg` | Paired grayscale images with aligned histogram traces, the saved SIFT result and a three-stage cell segmentation sequence; all image panels are crops from the original PNG outputs |
-| `nlp-model-overview.svg` | TP4 cells 10–21, with BERT dimensions from the published configuration; sparse vectors, coefficient matrices, token positions, embedding volumes and neuron connections are schematic |
-| `model-comparison.svg` | Saved TP4 accuracy and macro F1 for the same 165 held-out notes |
-| `per-class-f1.svg` | F1 values printed in the two saved TP4 classification reports |
-| `histogram-equalization.png`, `edge-detection.png`, `cell-segmentation.png`, `sift-matching.png` | Original saved OpenCV figures, extracted without redrawing their contents |
-| `nlp-class-distribution.png`, `nlp-confusion-matrix.png` | Original saved TP4 figures |
+The OpenCV figure uses actual image crops from TP1. The medical note diagram shows how the models process a note, and the metric plots use the predictions reported in TP4.
 
-[`docs/research_figures.py`](../docs/research_figures.py) builds the SVG figures from the notebook reports, PNG outputs and [`tp4_metrics.json`](../docs/results/tp4_metrics.json). See [Methods](../docs/methods.md) for image sources, code references and model definitions.
+| Figure | Source and interpretation |
+| --- | --- |
+| [OpenCV results](computer-vision-results.svg) | Original and equalized grayscale images with their histograms, SIFT matches across two views and three stages of cell segmentation. All panels come from the saved notebook PNGs. |
+| [Medical note classifiers](nlp-model-overview.svg) | TP4 cells 10–21 and the pretrained BERT configuration. The sparse vector, coefficient matrix, token positions, embeddings and classifier connections are schematic. |
+| [Model comparison](model-comparison.svg) | Accuracy and macro F1 for both models on the same 165 held-out notes. |
+| [Per-class F1](per-class-f1.svg) | Five F1 values per model, at the precision printed in the classification reports. |
+| [Equalization](histogram-equalization.png) · [Edges](edge-detection.png) · [Cells](cell-segmentation.png) · [SIFT](sift-matching.png) | Original figures saved by OpenCV TP1. |
+| [Specialty counts](nlp-class-distribution.png) · [Confusion matrix](nlp-confusion-matrix.png) | Original TP4 figures. The counts cover all 825 notes. The matrix covers the SVM’s 165 held-out predictions. |
+
+The [figure script](../docs/research_figures.py) builds the four SVGs from the saved notebook outputs, PNGs and [TP4 metrics](../docs/results/tp4_metrics.json). [Model definitions and references](../docs/methods.md).

@@ -1,49 +1,49 @@
 # AI and Applications
 
-Image processing and medical text classification in Python. I implemented contrast enhancement, cell segmentation and SIFT matching with OpenCV, then compared a TF-IDF/LinearSVC baseline with a fine-tuned BERT classifier.
+I used OpenCV to compare two ways of counting cells that touch in a microscopy image. I also matched features between photographs of the same book taken from different angles. In a separate experiment, I trained a linear SVM and fine-tuned BERT to predict a medical note’s specialty. I tested both classifiers on the same 165 held-out notes.
 
-**Python · OpenCV · NumPy · pandas · scikit-learn · NLTK · Hugging Face Transformers · PyTorch · Matplotlib**
-
-[OpenCV notebook](computer-vision/TP1.ipynb) · [Preprocessing experiments](nlp/TP2.ipynb) · [Medical notes notebook](nlp/TP4.ipynb)
+[OpenCV notebook](computer-vision/TP1.ipynb) · [Text preprocessing notebook](nlp/TP2.ipynb) · [Medical note classification notebook](nlp/TP4.ipynb)
 
 ## Image processing and local features
 
-I compared image contrast before and after histogram equalization, separated touching cells with watershed and matched local features between object views. The figure shows the corresponding notebook outputs.
+An intensity threshold can leave touching cells connected. I counted contours larger than 8.5 px² and found **328 candidate regions**. I then used a distance transform to place markers inside the cells so watershed could separate neighbouring regions. That method gave **373 regions** on the same image. The exercise has no reference count to establish which estimate is closer.
 
-![Large before-and-after contrast views with aligned histograms, SIFT correspondences and a three-image segmentation sequence](assets/computer-vision-results.svg)
+![Original and equalized grayscale images with histograms, SIFT matches between two photographs, and a microscopy image before and after watershed segmentation.](assets/computer-vision-results.svg)
 
-**Figure 1.** Contrast before and after equalization, SIFT correspondences and the three steps of cell segmentation. [Methods and parameters](computer-vision/README.md).
+**Figure 1.** (a) Grayscale intensities before and after histogram equalization. (b) Matching features across two views of a book. (c) The microscopy image, its cleaned binary mask and the watershed boundaries. [Methods and parameters](computer-vision/README.md).
+
+In the book example, I kept a SIFT match when the nearest descriptor was less than 0.75 times as far away as the second-nearest descriptor. **656 matches** passed that test for the two photographs shown.
 
 ## Medical note classification
 
-**Task:** assign a medical note to one of five specialties: Gastroenterology, Neurology, Orthopedic, Radiology or Urology. The recorded dataset contains **825 notes**, split into **660 training** and **165 held-out** samples with label stratification.
+I trained two classifiers to assign each note to one of five specialties (Gastroenterology, Neurology, Orthopedic, Radiology or Urology). I used a stratified split of the **825 notes** to preserve the specialty proportions in the **660 training notes and 165 held-out notes**. Both models received the same cleaned, stemmed text.
 
-### Method
+![The SVM uses TF-IDF word features. BERT processes WordPiece tokens through its encoder. Each model predicts one specialty independently.](assets/nlp-model-overview.svg)
 
-![One cleaned medical note branches into a sparse TF-IDF vector and LinearSVC, or WordPiece tokens, BERT embeddings, twelve encoder layers and a five-class head](assets/nlp-model-overview.svg)
-
-**Figure 2.** Two models trained separately for the same classification task. The drawing compares sparse TF-IDF features with the token embeddings, encoder layers and classification head used by BERT. The representations are schematic, with dimensions from `bert-base-uncased`. [Method and source references](docs/methods.md).
+**Figure 2.** The SVM scores five specialties from a sparse vector of term weights. BERT uses the pooled first-token representation to score the same five labels. [Representations and model dimensions](docs/methods.md#medical-note-classification).
 
 ### Recorded results
 
-![Test accuracy and macro F1 for TF-IDF with LinearSVC and BERT, evaluated on the same 165 held-out notes](assets/model-comparison.svg)
+The TF-IDF and linear SVM baseline classified **118 of 165 notes correctly (71.52%)**. BERT classified **101 correctly (61.21%)** after one epoch of fine-tuning. Their macro F1 scores were **0.70** and **0.51**, respectively.
 
-**Figure 3.** Accuracy and macro F1 from the saved TP4 classification reports. The F1 values follow the two-decimal precision printed in those reports.
+![Test accuracy and macro F1 for the two classifiers on the same 165 held-out notes.](assets/model-comparison.svg)
 
-The TF-IDF baseline had higher accuracy and macro F1 in this run. Both models received stemmed text. BERT was trained for one epoch with a 128-token input limit, including `[CLS]` and `[SEP]`. Longer notes were truncated to at most 126 WordPiece tokens of text. The comparison describes these settings on the same test split. [Per-class results](nlp/README.md#where-the-models-differ) · [Experiment protocol](docs/experiments.md).
+**Figure 3.** Accuracy is the fraction of held-out notes classified correctly. Macro F1 gives each specialty equal weight. F1 is reported to the notebook’s two-decimal precision.
+
+BERT correctly classified **3 of the 28 Neurology notes**. On Radiology, its F1 was **0.58**, compared with **0.53** for the SVM. BERT’s 128-token input included `[CLS]` and `[SEP]`, leaving room for at most 126 WordPiece tokens of note text. These results describe one split and one fine-tuning run. [Per-class results](nlp/README.md#where-the-models-differ) · [Training settings](docs/experiments.md).
 
 ## Preprocessing experiments
 
-TP2 compares seven combinations of lowercasing, stop-word removal and Porter stemming using TF-IDF + LinearSVC. Its synthetic dataset has **14 specialties** and **1,000 held-out notes**. All seven saved reports show **0.73 accuracy** to two decimal places, although some class scores differ. TP4 uses a different dataset with five specialties. [TP2 setup and results](nlp/README.md#tp2-preprocessing-experiments).
+In a separate exercise, I tested seven combinations of lowercasing, stop-word removal and Porter stemming with TF-IDF and LinearSVC. The **synthetic** dataset had 14 specialties. All seven runs reported **0.73 accuracy** to two decimal places on the same 1,000 held-out notes, although individual specialties scored differently. [TP2 setup and results](nlp/README.md#tp2-preprocessing-experiments).
 
 ## Repository guide
 
-| Location | Contents | Start here |
-| --- | --- | --- |
-| [`computer-vision/`](computer-vision/) | OpenCV exercises, saved figures and HTML export | [Module guide](computer-vision/README.md) |
-| [`nlp/`](nlp/) | Preprocessing experiments, medical note classification and guided TP1 examples | [Module guide](nlp/README.md) |
-| [`docs/reports/`](docs/reports/) | Submitted coursework reports | [Image processing](docs/reports/image-processing.pdf) · [NLP](docs/reports/nlp.pdf) |
-| [`docs/`](docs/) | Methods, experimental settings and input requirements | [Experiments](docs/experiments.md) · [Execution notes](docs/running.md) |
-| [`assets/`](assets/) | Method diagrams, metric plots and notebook figures | [Figure sources](assets/README.md) |
+| Resource | What to look for |
+| --- | --- |
+| [Computer vision](computer-vision/README.md) | Contrast, filters, cell counts and SIFT matches, with the notebook’s saved images. |
+| [Language processing](nlp/README.md) | Guided text representations, the TP2 preprocessing comparison and the TP4 specialty classifiers. |
+| [Experiments](docs/experiments.md) · [Methods](docs/methods.md) | Data splits, model settings and the classification report for each specialty. |
+| [Execution notes](docs/running.md) · [Figure sources](assets/README.md) | Inputs needed to run the notebooks and commands to rebuild the figures. |
+| [Vision report](docs/reports/image-processing.pdf) · [NLP report](docs/reports/nlp.pdf) | The original coursework submissions. |
 
-*Practical coursework for IA et Applications (UE3.S9): Image and Video Processing and Analysis, and Automatic Language Processing. Completed during my Erasmus semester at [Polytech Tours, Université de Tours](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique).*
+*Practical coursework for IA et Applications (UE3.S9), completed during my Erasmus semester at [Polytech Tours, Université de Tours](https://polytech.univ-tours.fr/version-francaise/navigation/cycle-ingenieur/informatique).*
